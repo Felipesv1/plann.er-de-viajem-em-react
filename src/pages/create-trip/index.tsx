@@ -20,7 +20,11 @@ export function CreateTripPage() {
     DateRange | undefined
   >();
   function openGuestInput() {
-    setisGuestInputOpen(true);
+    if (destination && eventStartAndEndDates?.from && eventStartAndEndDates?.to)
+      setisGuestInputOpen(true);
+    else {
+      alert("Preencha os campos de destino e data para continuar"); 
+    }
   }
 
   function closeGuestInput() {
