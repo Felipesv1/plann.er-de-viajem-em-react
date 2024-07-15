@@ -20,10 +20,9 @@ export function CreateTripPage() {
     DateRange | undefined
   >();
   function openGuestInput() {
-    if (destination && eventStartAndEndDates?.from && eventStartAndEndDates?.to)
-      setisGuestInputOpen(true);
+    if (destination !== "" && eventStartAndEndDates) setisGuestInputOpen(true);
     else {
-      alert("Preencha os campos de destino e data para continuar"); 
+      alert("Preencha os campos de destino e data para continuar");
     }
   }
 
