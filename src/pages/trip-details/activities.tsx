@@ -16,11 +16,14 @@ interface Activity {
 export function Activities() {
   const { tripId } = useParams();
   const [activities, setActivities] = useState<Activity[]>([]);
-
+  const [isloading, setisLoading] = useState(true);
   useEffect(() => {
     api
       .get(`trips/${tripId}/activities`)
-      .then((response) => setActivities(response.data.activities));
+      .then((response) => setActivities(response.data.activities))
+      .finally(() => {
+        setisLoading(false);
+      });
   }, [tripId]);
 
   return (
@@ -60,6 +63,7 @@ export function Activities() {
           </div>
         );
       })}
+      {isloading && <p>Carregando...</p>}
     </div>
   );
 }
