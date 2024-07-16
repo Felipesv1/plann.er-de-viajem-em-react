@@ -2,7 +2,7 @@ import { Link2, Plus } from "lucide-react";
 import { Button } from "../../components/button";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateLinksModal } from "./create-links-modal";
 
 interface Links {
@@ -13,8 +13,6 @@ interface Links {
 export function InportantLinks() {
   const { tripId } = useParams();
   const [links, setLinks] = useState<Links[]>([]);
-  const [title, setTitle] = useState("");
-  const [url, setUrl] = useState("");
 
   const [isLinkInput, setIsLinkInput] = useState(false);
 
@@ -24,14 +22,7 @@ export function InportantLinks() {
   function closeLinkModal() {
     setIsLinkInput(false);
   }
-  async function createLink(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    await api.post(`/trips/${tripId}/links`, {
-      title,
-      url,
-    });
-    window.document.location.reload();
-  }
+
   useEffect(() => {
     api
       .get(`trips/${tripId}/links`)
@@ -63,14 +54,7 @@ export function InportantLinks() {
           </div>
         ))}
       </div>
-      {isLinkInput && (
-        <CreateLinksModal
-          setTitle={setTitle}
-          setUrl={setUrl}
-          closeLinkModal={closeLinkModal}
-          createLink={createLink}
-        />
-      )}
+      {isLinkInput && <CreateLinksModal closeLinkModal={closeLinkModal} />}
       <Button onClick={openLinkModal} variant="secondary" size="full">
         <Plus className="size-5" />
         Cadastrar novo link
