@@ -1,5 +1,5 @@
 import { Link2, Tag, X } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { Button } from "../../components/button";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
@@ -9,10 +9,12 @@ interface saveLinksProps {
 }
 export function CreateLinksModal({ closeLinkModal }: saveLinksProps) {
   const { tripId } = useParams();
-  const [title, setTitle] = useState("");
-  const [url, setUrl] = useState("");
+
   async function createLink(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const title = data.get("title")?.toString();
+    const url = data.get("url")?.toString();
     await api.post(`/trips/${tripId}/links`, {
       title,
       url,
@@ -40,7 +42,6 @@ export function CreateLinksModal({ closeLinkModal }: saveLinksProps) {
               name="title"
               placeholder="Título do link"
               className="bg-transparent text-lg placeholder:-zinc-400 outline-none flex-1"
-              onChange={(event) => setTitle(event.target.value)}
             />
           </div>
           <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
@@ -50,7 +51,6 @@ export function CreateLinksModal({ closeLinkModal }: saveLinksProps) {
               name="url"
               placeholder="URL"
               className="bg-transparent text-lg placeholder:-zinc-400 outline-none flex-1"
-              onChange={(event) => setUrl(event.target.value)}
             />
           </div>
           <Button type="submit" variant="primary" size="full">
