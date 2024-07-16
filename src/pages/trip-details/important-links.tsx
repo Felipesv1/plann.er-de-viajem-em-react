@@ -43,8 +43,7 @@ export function InportantLinks() {
                 {link.title}
               </span>
               <a
-                target="_blank"
-                href={link.url}
+                href="#"
                 className="block text-xs text-zinc-400 truncate hover:text-zinc-200"
               >
                 {link.url}
