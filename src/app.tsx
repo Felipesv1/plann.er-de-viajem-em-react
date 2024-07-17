@@ -11,6 +11,10 @@ const router = createBrowserRouter([
     path: "/trips/:tripId",
     element: <TripDetailsPage />,
   },
+  {
+    path: "/trips/:tripId/links",
+    element: <TripDetailsPage />,
+  },
 ]);
 export function App() {
   return <RouterProvider router={router} />;

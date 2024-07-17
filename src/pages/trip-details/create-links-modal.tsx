@@ -1,7 +1,7 @@
 import { Link2, Tag, X } from "lucide-react";
 import { FormEvent } from "react";
 import { Button } from "../../components/button";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
 
 interface saveLinksProps {
@@ -9,6 +9,7 @@ interface saveLinksProps {
 }
 export function CreateLinksModal({ closeLinkModal }: saveLinksProps) {
   const { tripId } = useParams();
+  const navigate = useNavigate();
 
   async function createLink(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -19,7 +20,9 @@ export function CreateLinksModal({ closeLinkModal }: saveLinksProps) {
       title,
       url,
     });
-    window.document.location.reload();
+
+    window.location.reload();
+    navigate(`/trips/${tripId}/links`);
   }
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -53,7 +56,7 @@ export function CreateLinksModal({ closeLinkModal }: saveLinksProps) {
               className="bg-transparent text-lg placeholder:-zinc-400 outline-none flex-1"
             />
           </div>
-          <Button variant="primary" size="full">
+          <Button type="submit" variant="primary" size="full">
             Salvar link
           </Button>
         </form>
