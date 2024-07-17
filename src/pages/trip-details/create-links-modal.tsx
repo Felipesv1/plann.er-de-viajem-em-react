@@ -1,29 +1,16 @@
 import { Link2, Tag, X } from "lucide-react";
 import { FormEvent } from "react";
 import { Button } from "../../components/button";
-import { useNavigate, useParams } from "react-router-dom";
-import { api } from "../../lib/axios";
 
-interface saveLinksProps {
+interface CreateLinksModalProps {
   closeLinkModal: () => void;
+  createLink: (event: FormEvent<HTMLFormElement>) => void;
 }
-export function CreateLinksModal({ closeLinkModal }: saveLinksProps) {
-  const { tripId } = useParams();
-  const navigate = useNavigate();
 
-  async function createLink(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const title = data.get("title")?.toString();
-    const url = data.get("url")?.toString();
-    await api.post(`/trips/${tripId}/links`, {
-      title,
-      url,
-    });
-
-    window.location.reload();
-    navigate(`/trips/${tripId}/links`);
-  }
+export function CreateLinksModal({
+  closeLinkModal,
+  createLink,
+}: CreateLinksModalProps) {
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5">

@@ -1,20 +1,45 @@
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { CreateActivityModal } from "./create-activity-modal";
 import { InportantLinks } from "./important-links";
 import { Guests } from "./guests";
 import { Activities } from "./activities";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
+import { useParams } from "react-router-dom";
+import { api } from "../../lib/axios";
+import { CreateLinksModal } from "./create-links-modal";
 
 export function TripDetailsPage() {
+  const { tripId } = useParams();
   const [isCreateActivityModalOpen, setisCreateActivityModalOpen] =
     useState(false);
+  const [isLinkInput, setIsLinkInput] = useState(false);
 
+  function openLinkModal() {
+    setIsLinkInput(true);
+  }
+  function closeLinkModal() {
+    setIsLinkInput(false);
+  }
   function openCreateActivityModal() {
     setisCreateActivityModalOpen(true);
   }
   function closeCreateActivityModal() {
     setisCreateActivityModalOpen(false);
+  }
+  // function closeLinkModal(): void {
+  //   throw new Error("Function not implemented.");
+  // }
+  async function createLink(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const title = data.get("title")?.toString();
+    const url = data.get("url")?.toString();
+    await api.post(`/trips/${tripId}/links`, {
+      title,
+      url,
+    });
+    window.document.location.reload();
   }
   return (
     <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
@@ -36,7 +61,13 @@ export function TripDetailsPage() {
         </div>
 
         <div className="w-80 space-y-6">
-          <InportantLinks />
+          <InportantLinks openLinkModal={openLinkModal} />
+          {isLinkInput && (
+            <CreateLinksModal
+              closeLinkModal={closeLinkModal}
+              createLink={createLink}
+            />
+          )}
           <div className="w-full h-px bg-zinc-800" />
           <Guests />
         </div>
