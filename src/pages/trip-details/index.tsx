@@ -13,6 +13,8 @@ export function TripDetailsPage() {
   const { tripId } = useParams();
   const [isCreateActivityModalOpen, setisCreateActivityModalOpen] =
     useState(false);
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
   const [isLinkInput, setIsLinkInput] = useState(false);
 
   function openLinkModal() {
@@ -32,9 +34,6 @@ export function TripDetailsPage() {
   // }
   async function createLink(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const title = data.get("title")?.toString();
-    const url = data.get("url")?.toString();
     await api.post(`/trips/${tripId}/links`, {
       title,
       url,
@@ -66,6 +65,8 @@ export function TripDetailsPage() {
             <CreateLinksModal
               closeLinkModal={closeLinkModal}
               createLink={createLink}
+              setTitle={setTitle}
+              setUrl={setUrl}
             />
           )}
           <div className="w-full h-px bg-zinc-800" />
