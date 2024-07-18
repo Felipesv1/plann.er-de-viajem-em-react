@@ -5,40 +5,38 @@ import { InportantLinks } from "./important-links";
 import { Guests } from "./guests";
 import { Activities } from "./activities";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
-import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
+import { useParams } from "react-router-dom";
 import { CreateLinksModal } from "./create-links-modal";
 
 export function TripDetailsPage() {
   const { tripId } = useParams();
-  const [isCreateActivityModalOpen, setisCreateActivityModalOpen] =
-    useState(false);
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
-  const [isLinkInput, setIsLinkInput] = useState(false);
-
-  function openLinkModal() {
-    setIsLinkInput(true);
-  }
-  function closeLinkModal() {
-    setIsLinkInput(false);
-  }
+  const [isCreateActivityModalOpen, setisCreateActivityModalOpen] =
+    useState(false);
+  const [isLinkInput, setisLinkInput] = useState(false);
   function openCreateActivityModal() {
     setisCreateActivityModalOpen(true);
   }
   function closeCreateActivityModal() {
     setisCreateActivityModalOpen(false);
   }
-  // function closeLinkModal(): void {
-  //   throw new Error("Function not implemented.");
-  // }
+  function closeLinkModal(): void {
+    setisLinkInput(false);
+  }
+  function openLinkModal() {
+    setisLinkInput(true);
+  }
   async function createLink(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     await api.post(`/trips/${tripId}/links`, {
       title,
       url,
     });
-    window.document.location.reload();
+
+    window.location.reload();
   }
   return (
     <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
@@ -64,9 +62,9 @@ export function TripDetailsPage() {
           {isLinkInput && (
             <CreateLinksModal
               closeLinkModal={closeLinkModal}
-              createLink={createLink}
               setTitle={setTitle}
               setUrl={setUrl}
+              createLink={createLink}
             />
           )}
           <div className="w-full h-px bg-zinc-800" />

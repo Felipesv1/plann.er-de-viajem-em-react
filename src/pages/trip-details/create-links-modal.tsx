@@ -49,7 +49,7 @@ export function CreateLinksModal({
               onChange={(event) => setUrl(event.target.value)}
             />
           </div>
-          <Button variant="primary" size="full">
+          <Button type="submit" variant="primary" size="full">
             Salvar link
           </Button>
         </form>
