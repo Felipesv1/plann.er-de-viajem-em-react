@@ -44,7 +44,7 @@ export function Guests() {
                 {participant.email}
               </span>
             </div>
-            {participant.is_confirmed  ? (
+            {participant.is_confirmed ? (
               <CheckCircle2 className="text-green-400 size-5 shrink-0" />
             ) : (
               <CircleDashed className="text-zinc-400 size-5 shrink-0" />
@@ -53,10 +53,7 @@ export function Guests() {
         ))}
       </div>
       {isOpenModalGuest && (
-        <CreateGuestModal
-          participants={participants}
-          closeModalGuest={closeModalGuest}
-        />
+        <CreateGuestModal closeModalGuest={closeModalGuest} />
       )}
       <Button onClick={openModaGuest} variant="secondary" size="full">
         <UserCog className="size-5" />
