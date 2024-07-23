@@ -3,16 +3,25 @@ import { Button } from "../../components/button";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
+import { CreateGuestModal } from "./create-guest-modal";
 interface Participant {
   id: string;
   name: string | null;
   email: string;
   is_confirmed: boolean;
 }
+
 export function Guests() {
   const { tripId } = useParams();
   const [participants, setParticipants] = useState<Participant[]>([]);
+  const [isOpenModalGuest, setIsOpenModalGuest] = useState(false);
+  function openModaGuest() {
+    setIsOpenModalGuest(true);
+  }
 
+  function closeModalGuest() {
+    setIsOpenModalGuest(false);
+  }
   useEffect(() => {
     api
       .get(`trips/${tripId}/participants`)
@@ -35,7 +44,7 @@ export function Guests() {
                 {participant.email}
               </span>
             </div>
-            {participant.is_confirmed ? (
+            {participant.is_confirmed  ? (
               <CheckCircle2 className="text-green-400 size-5 shrink-0" />
             ) : (
               <CircleDashed className="text-zinc-400 size-5 shrink-0" />
@@ -43,8 +52,13 @@ export function Guests() {
           </div>
         ))}
       </div>
-
-      <Button variant="secondary" size="full">
+      {isOpenModalGuest && (
+        <CreateGuestModal
+          participants={participants}
+          closeModalGuest={closeModalGuest}
+        />
+      )}
+      <Button onClick={openModaGuest} variant="secondary" size="full">
         <UserCog className="size-5" />
         Gerenciar convidados
       </Button>
