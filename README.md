@@ -15,8 +15,10 @@ Um planejador de viagens desenvolvido em React, permitindo aos usuários organiz
 
 ## Tecnologias Utilizadas
 
-- ⚛️ **React:** Biblioteca JavaScript para construção de interfaces de usuário.
-- 🌐 **HTML5 & CSS3:** Tecnologias padrão para construção de páginas web.
+⚛️ React: Biblioteca JavaScript para construção de interfaces de usuário.
+🌐 HTML5 & CSS3: Tecnologias padrão para construção de páginas web.
+🎨 Tailwind CSS: Framework para estilização rápida e responsiva.
+🛠️ TypeScript: Superset do JavaScript que adiciona tipagem estática ao código.
 
 ## Como Executar o Projeto
 
